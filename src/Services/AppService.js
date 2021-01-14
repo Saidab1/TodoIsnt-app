@@ -1,42 +1,44 @@
-const API_ROOT = "http://localhost:3000";
+const API_ROOT = "https://todoisnt-api.herokuapp.com/";
 
-async function client(path, method, {body, user} = {}) {
-  const endpoint = `${API_ROOT}${path}`; 
+async function client(path, method, { body, user } = {}) {
+  const endpoint = `${API_ROOT}${path}`;
 
-  const headers = { "Content-Type" : "application/json"};
+  const headers = { "Content-Type": "application/json" };
 
   const config = {
-    method: `${method}`, 
+    method: `${method}`,
     headers: {
-      ...headers, 
+      ...headers,
     },
   };
 
-  if(body) {
+  if (body) {
     config.body = JSON.stringify(body);
   }
 
-  if( user) {
-    config.headers = {...config.headers, Authorization: `Bearer ${user.token}`}
+  if (user) {
+    config.headers = {
+      ...config.headers,
+      Authorization: `Bearer ${user.token}`,
+    };
   }
 
-  let responseData; 
+  let responseData;
 
   try {
     const response = await fetch(endpoint, config);
     responseData = await response.json();
 
-    if(responseData) {
+    if (responseData) {
       if (response.ok) {
-        return { data: responseData}
+        return { data: responseData };
       } else {
-        return { error: responseData.errors}
+        return { error: responseData.errors };
       }
     }
   } catch (error) {
-    return {error: "Network error"}
+    return { error: "Network error" };
   }
-
 }
 
-export {client}
+export { client };

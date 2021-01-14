@@ -1,11 +1,10 @@
 /**@jsx jsx*/
-import React, { useState} from "react";
+import { useState } from "react";
 import { jsx } from "@emotion/core";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCircle, faCheckCircle } from "@fortawesome/free-regular-svg-icons";
 import { TaskWrapper, TaskItemContainer, Task } from "../StyledComponents";
 import UpdateForm from "./UpdateForm";
-
 
 function TaskItem({ value, taskStatus, onCancel, deleted }) {
   const [isEditing, setIsEditing] = useState(false);
@@ -15,11 +14,11 @@ function TaskItem({ value, taskStatus, onCancel, deleted }) {
   }
 
   async function uncompleteATask() {
-    taskStatus( { ...value, ...{ completed: false } })
+    taskStatus({ ...value, ...{ completed: false } });
   }
 
   function completeATask() {
-    taskStatus({ ...value, ...{ completed: true } })
+    taskStatus({ ...value, ...{ completed: true } });
   }
 
   return (

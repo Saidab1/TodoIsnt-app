@@ -1,23 +1,18 @@
 /**@jsx jsx */
-import React, { useContext, useState, useEffect } from "react";
+import { useContext, useState, useEffect } from "react";
 import { jsx } from "@emotion/core";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faFacebookSquare } from "@fortawesome/free-brands-svg-icons";
 import { Divider } from "@chakra-ui/core";
 import { Formik, Form } from "formik";
 import * as Yup from "yup";
 import {
   FormWrapper,
-  FormTitle,
   FormButton,
-  FormSeparator,
-  FormLabel,
+  AuthFormLabel,
   FormInput,
   FormBottomMessage,
   FormLink,
   ErrorMessage,
 } from "../StyledComponents";
-import google from "../../Images/google.svg";
 import { ReactComponent as Logo } from "../../Images/logo.svg";
 import { Link, Redirect, useHistory } from "react-router-dom";
 import { userContext } from "../../UserContext";
@@ -27,9 +22,9 @@ function Login() {
   const { user, setUser } = useContext(userContext);
   const history = useHistory();
   const [errorMessage, setErrorMessage] = useState("");
-  
+
   async function handleSubmit(values) {
-    const { data, error } = await client("/login", "POST", {body: values});
+    const { data, error } = await client("/login", "POST", { body: values });
 
     if (data) {
       setUser(data);
@@ -43,7 +38,7 @@ function Login() {
     setTimeout(() => setErrorMessage(""), 5000);
   }, [errorMessage]);
 
-  if(user) return <Redirect to="/app/inbox"/>
+  if (user) return <Redirect to="/app/inbox" />;
 
   return (
     <FormWrapper>
@@ -51,37 +46,10 @@ function Login() {
         <Logo
           fill="black"
           stroke="black"
-          css={{ marginBottom: "15px", width: "98px" }}
+          css={{ marginBottom: "15px", width: "110px" }}
         />
       </Link>
 
-      <FormTitle>Log In</FormTitle>
-      <div>
-        <FormButton css={{ backgroundColor: "#0095f6", color: "#fff" }}>
-          {" "}
-          <FontAwesomeIcon
-            icon={faFacebookSquare}
-            css={{ verticalAlign: "bottom", marginRight: "5px" }}
-          />
-          <span>Log in with Facebook</span>
-        </FormButton>
-        <FormButton>
-          {" "}
-          <img
-            src={google}
-            alt="google icon"
-            css={{ verticalAlign: "bottom", marginRight: "5px" }}
-          />
-          <span>Log in with Google</span>
-        </FormButton>
-      </div>
-      <div css={{ display: "flex", margin: "30px 0" }}>
-        <FormSeparator />{" "}
-        <span css={{ margin: " 0 5px", textAlign: "center", color: "#777" }}>
-          Or
-        </span>{" "}
-        <FormSeparator />
-      </div>
       <Formik
         initialValues={{ email: "", password: "" }}
         validationSchema={Yup.object({
@@ -93,14 +61,14 @@ function Login() {
         onSubmit={(values) => handleSubmit(values)}
       >
         <Form css={{ width: "100%" }}>
-          <FormLabel htmlFor="email">Email</FormLabel>
+          <AuthFormLabel htmlFor="email">Email</AuthFormLabel>
           <FormInput
             name="email"
             type="email"
             placeholder="email@email.com"
           ></FormInput>
 
-          <FormLabel htmlFor="password">Password</FormLabel>
+          <AuthFormLabel htmlFor="password">Password</AuthFormLabel>
           <FormInput
             name="password"
             type="password"
@@ -124,12 +92,6 @@ function Login() {
       <FormBottomMessage>
         Don't have an account? <FormLink to="/signup">Sign Up</FormLink>
       </FormBottomMessage>
-      <FormLink
-        to="/recoverPassword"
-        css={{ textAlign: "center", display: "block" }}
-      >
-        Forgot password?
-      </FormLink>
     </FormWrapper>
   );
 }

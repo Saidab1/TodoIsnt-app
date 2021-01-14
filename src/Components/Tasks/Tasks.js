@@ -1,5 +1,5 @@
 /**@jsx  jsx*/
-import React, { useState } from "react";
+import { useState } from "react";
 import { jsx } from "@emotion/core";
 import {
   ContentTitle,
@@ -21,16 +21,14 @@ function Tasks({ projects, tasks, handleDeleteTasks, updateTask, allTasks }) {
   const [changeTextButton, setChangeTextButton] = useState(false);
   const [showMessage, setShowMessage] = useState("");
 
-  let { id = null  } = useParams();
-  if(id !== null) {
-    id = parseInt(id)
+  let { id = null } = useParams();
+  if (id !== null) {
+    id = parseInt(id);
   }
-  
 
   function handleShowForm(showform) {
     setShowForm(!showForm);
   }
-
 
   function handleShowMessage(task, options) {
     const selectedProject = options.find(
@@ -44,8 +42,6 @@ function Tasks({ projects, tasks, handleDeleteTasks, updateTask, allTasks }) {
 
   const completedTask = tasksToShow.filter((task) => task.completed);
   const uncompletedTasks = tasksToShow.filter((task) => !task.completed);
-
-  
 
   return (
     <TasksContainer>

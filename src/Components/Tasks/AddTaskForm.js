@@ -1,5 +1,5 @@
 /**@jsx jsx*/
-import React, { useContext } from "react";
+import { useContext } from "react";
 import { jsx } from "@emotion/core";
 import { Formik, ErrorMessage, Field } from "formik";
 import {
@@ -18,18 +18,19 @@ import { client } from "../../Services/AppService";
 function AddTaskForm({ onCancel, task, AllProjects, currentTask }) {
   const { user } = useContext(userContext);
   let { id = null } = useParams();
-  if(id !== null) {
-    id = parseInt(id)
+  if (id !== null) {
+    id = parseInt(id);
   }
-  
+
   const optionsN = AllProjects.map((project) => ({
     value: project.name.toLowerCase(),
     label: project.name,
     id: project.id,
   }));
 
-
-  const options = [{ value: "inbox", label: "Inbox", id: null }].concat(optionsN);
+  const options = [{ value: "inbox", label: "Inbox", id: null }].concat(
+    optionsN
+  );
 
   const projectSelected = options.find((option) => option.id === id);
 
@@ -53,7 +54,10 @@ function AddTaskForm({ onCancel, task, AllProjects, currentTask }) {
       currentTask(values, options);
     }
 
-    const { data, error } = await client("/tasks", "POST", {body: { ...values, completed: false, user_id: user.id }, user: {token: `${user.token}`}});
+    const { data, error } = await client("/tasks", "POST", {
+      body: { ...values, completed: false, user_id: user.id },
+      user: { token: `${user.token}` },
+    });
 
     if (data) {
       task(data);

@@ -34,7 +34,10 @@ function DeleteProject({ project, closeMenu, deleteProject }) {
 
   return (
     <React.Fragment>
-      <MenuItem onClick={()=>handleButtonClick()} css={{ "&:hover": { color: "red" } }}>
+      <MenuItem
+        onClick={() => handleButtonClick()}
+        css={{ "&:hover": { color: "red" } }}
+      >
         <FontAwesomeIcon icon={faTrashAlt} css={{ marginRight: "5px" }} />{" "}
         <span css={{ verticalAlign: "middle" }}>Delete</span>
       </MenuItem>
@@ -48,8 +51,7 @@ function DeleteProject({ project, closeMenu, deleteProject }) {
           </ModalHeader>
           <ModalBody css={{ padding: "5px 24px" }}>
             <p css={{ textAlign: "center" }}>
-              Are you sure you want to delete{" "}
-              <strong>{project.name}</strong>?
+              Are you sure you want to delete <strong>{project.name}</strong>?
             </p>
           </ModalBody>
           <Divider

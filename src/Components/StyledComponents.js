@@ -1,21 +1,30 @@
-import React from "react";
 import styled from "@emotion/styled";
 import { Form, Field } from "formik";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { ModalContent, ModalBody, ModalHeader, Divider } from "@chakra-ui/core";
+import { ModalContent, ModalBody, ModalHeader } from "@chakra-ui/core";
 import { NavLink, Link } from "react-router-dom";
 
-const MainContainer = styled.div``;
-
-const ContentContainer = styled.div`
-  display: flex;
-`;
+const breakpoints = [320, 768];
+const mediaQueries = breakpoints.map((bp) => {
+  if (bp === 320) {
+    return `@media (min-width: ${bp}px) and (max-width: 767px)`;
+  } else {
+    return `@media (min-width: ${bp}px) and (max-width: 1024px)`;
+  }
+});
 
 const TasksContainer = styled.div`
   width: 800px;
   margin: auto;
   font-family: "Lato", sans-serif;
   margin-top: 56px;
+
+  ${mediaQueries[0]} {
+    width: 85%;
+  }
+  ${mediaQueries[1]} {
+    width: 85%;
+  } ;
 `;
 
 const ContentTitle = styled.h2`
@@ -61,6 +70,10 @@ const ShowCompletedButton = styled.button`
   margin-bottom: 46px;
   border-style: none;
   margin-top: 53px;
+
+  ${mediaQueries[1]} {
+    margin-right: 35px;
+  }
 `;
 
 const TaskFormContainer = styled(Form)`
@@ -75,6 +88,10 @@ const AddTaskInputWrapper = styled.div`
   height: 100px;
   padding: 8px;
   margin-bottom: 5px;
+
+  ${mediaQueries[1]} {
+    width: 85%;
+  } ;
 `;
 
 const TaskInput = styled(Field)`
@@ -120,9 +137,13 @@ const CancelButton = styled(Button)`
 const TaskWrapper = styled.div`
   width: 100%;
   border-bottom: 1px solid #119b9d;
-  height: ${(props) => (props.isEditing ? "108px" : "56px")};
+  height: ${(props) => (props.isEditing ? "108px" : "")};
   padding: ${(props) => (props.isEditing ? "none" : "18px 0 18px 12px")};
   opacity: ${(props) => (props.completedTask ? "0.5" : "none")};
+
+  ${mediaQueries[1]} {
+    width: 85%;
+  } ;
 `;
 
 const TaskItemContainer = styled.div`
@@ -137,6 +158,12 @@ const Task = styled.p`
   text-decoration: ${(props) =>
     props.completedTask ? "line-through" : "none"};
   cursor: ${(props) => !props.completedTask && "pointer"};
+
+  ${mediaQueries[0]} {
+    font-size: 15px;
+    line-height: unset;
+    width: 90%;
+  }
 `;
 
 const SideBarButton = styled.button`
@@ -169,6 +196,15 @@ const ArrowSideBarItem = styled(FontAwesomeIcon)`
   margin-top: 6px;
   transform: ${(props) => (props.open ? "rotate(90deg)" : "rotate(0deg)")};
 `;
+const ModalWrapper = styled(ModalContent)`
+  width: 400px;
+  border-radius: 15px;
+
+  ${mediaQueries[0]} {
+    max-width: 375px;
+    width: 90%;
+  }
+`;
 
 const ModalHeaderWrapper = styled(ModalHeader)`
   font-family: "Lato", sans-serif;
@@ -179,11 +215,6 @@ const ModalHeaderWrapper = styled(ModalHeader)`
   border-radius: 15px;
   display: flex;
   justify-content: space-between;
-`;
-
-const ModalWrapper = styled(ModalContent)`
-  width: 400px;
-  border-radius: 15px;
 `;
 
 const ModalFormContent = styled(ModalBody)`
@@ -238,6 +269,11 @@ const ProjectMenuWrapper = styled.div`
   border: 1px solid #ddd;
   position: absolute;
   right: -200px;
+
+  ${mediaQueries[0]} {
+    width: 180px;
+    right: -10px;
+  }
 `;
 
 const MenuItemsWrapper = styled.ul`
@@ -269,19 +305,29 @@ const DeleteConfirmationButton = styled.button`
 
 const FormWrapper = styled.div`
   width: 452px;
-  border: 1px solid #dbdbdb; 
+  border: 1px solid #dbdbdb;
   padding: 25px;
   border-radius: 8px;
   box-shadow: 0 1px 8px 0 rgba(0, 0, 0, 0.08);
   margin: 50px auto;
+
+  ${mediaQueries[0]} {
+    max-width: 375px;
+    width: 90%;
+  }
 `;
 
-const FormTitle = styled.h1`
-  font-size: 26px;
+const AuthFormLabel = styled(Label)`
   font-weight: bold;
-  font-family: "Lato", sans-serif;
   color: #119b9d;
-  margin: 0 0 30px;
+`;
+
+const FormInput = styled(Field)`
+  width: 100%;
+  height: 36px;
+  border: 1px solid #ddd;
+  margin-bottom: 12px;
+  padding: 5px;
 `;
 
 const FormButton = styled.button`
@@ -299,26 +345,6 @@ const FormButton = styled.button`
   cursor: pointer;
 `;
 
-const FormSeparator = styled(Divider)`
-width: 178px;
- color: #cbbcb1;
-`;
-
-const FormLabel = styled.label`
-  display: block;
-  margin-bottom: 8px;
-  font-size: 15px;
-  font-weight: bold;
-`;
-
-const FormInput = styled(Field)`
-  width: 100%;
-  height: 36px;
-  border: 1px solid #ddd;
-  margin-bottom: 12px;
-  padding: 5px;
-`;
-
 const FormBottomMessage = styled.p`
   text-align: center;
   margin-top: 35px;
@@ -326,19 +352,37 @@ const FormBottomMessage = styled.p`
 `;
 
 const FormLink = styled(Link)`
-   color: #119b9d;
-   margin-left: 5px;
+  color: #119b9d;
+  margin-left: 5px;
 `;
 
-const HeaderLanding = styled.header`
- width: 1088px;
- height: 64px;
- margin: 0 auto;
- background-color:  #119b9d;
- display: flex;
- padding: 10px 50px;
- align-items: center;
- justify-content: space-between;
+const Header = styled.header`
+  width: 85%;
+  height: 64px;
+  margin: 0 auto;
+  background-color: #119b9d;
+  display: flex;
+  padding: 10px 50px;
+  align-items: center;
+  justify-content: space-between;
+
+  ${mediaQueries[0]} {
+    padding: 10px 0px;
+  } ;
+`;
+
+const MenuHomeWrapper = styled.div`
+  display: flex;
+  align-items: center;
+  width: 170px;
+  justify-content: space-between;
+  font-size: 27px;
+  color: #ffffff;
+
+  ${mediaQueries[0]} {
+    width: 135px;
+    font-size: 22px;
+  }
 `;
 
 const HeaderLink = styled(NavLink)`
@@ -348,7 +392,7 @@ const HeaderLink = styled(NavLink)`
 
   &:hover {
     font-weight: bold;
-  };
+  }
 `;
 
 const LandingTitle = styled.h1`
@@ -357,10 +401,20 @@ const LandingTitle = styled.h1`
   line-height: 84px;
   text-align: center;
   font-weight: 600;
+
+  ${mediaQueries[1]} {
+    font-size: 60px;
+    line-height: 75px;
+  }
+
+  ${mediaQueries[0]} {
+    font-size: 2.4rem;
+    line-height: 45px;
+  } ;
 `;
 
 const LandingButton = styled(Link)`
-  width:163px;
+  width: 163px;
   background-color: #119b9d;
   border-radius: 10px;
   color: #fff;
@@ -373,28 +427,13 @@ const LandingButton = styled(Link)`
   display: block;
 `;
 
-const HeaderApp = styled.header`
- background-color: #119b9d;
-  width: 100%;
-  height: 64px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 10px 40px;
-`;
-
 const ErrorMessage = styled.p`
   color: red;
   font-weight: bold;
   text-align: center;
 `;
 
-
-
-
 export {
-  MainContainer,
-  ContentContainer,
   TasksContainer,
   ContentTitle,
   AddTaskText,
@@ -424,17 +463,16 @@ export {
   MenuItemsWrapper,
   DeleteConfirmationButton,
   FormWrapper,
-  FormTitle,
   FormButton,
-  FormSeparator,
-  FormLabel,
+  AuthFormLabel,
   FormInput,
   FormBottomMessage,
   FormLink,
-  HeaderLanding,
+  Header,
+  MenuHomeWrapper,
   HeaderLink,
   LandingTitle,
   LandingButton,
-  HeaderApp,
   ErrorMessage,
+  mediaQueries,
 };

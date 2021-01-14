@@ -78,12 +78,15 @@ function CreateProjectForm({ openModal, closeModal, onSubmit, initialValues }) {
     />
   );
 
-  const {user} = useContext(userContext);
+  const { user } = useContext(userContext);
 
   async function handleSubmit(values) {
-  
-    if(initialValues.id) {
-      const {data, error}= await client(`/projects/${initialValues.id}`, "PATCH", {body: {...values}, user: {token: `${user.token}`}});
+    if (initialValues.id) {
+      const { data, error } = await client(
+        `/projects/${initialValues.id}`,
+        "PATCH",
+        { body: { ...values }, user: { token: `${user.token}` } }
+      );
       if (data) {
         onSubmit(data);
         closeModal();
@@ -91,8 +94,11 @@ function CreateProjectForm({ openModal, closeModal, onSubmit, initialValues }) {
         console.log(error);
       }
     } else {
-     const {data, error} = await client(`/projects`, "POST", {body: {...values, ...{user_id: user.id}}, user: {token: `${user.token}`}});
-  
+      const { data, error } = await client(`/projects`, "POST", {
+        body: { ...values, ...{ user_id: user.id } },
+        user: { token: `${user.token}` },
+      });
+
       if (data) {
         onSubmit(data);
         closeModal();
@@ -100,7 +106,6 @@ function CreateProjectForm({ openModal, closeModal, onSubmit, initialValues }) {
         console.log(error);
       }
     }
-    
   }
 
   return (
